@@ -1,0 +1,65 @@
+from google import genai
+
+# Enter your Gemini API key
+API_KEY = "YOUR_GEMINI_API_KEY"
+
+# Create Gemini client
+client = genai.Client(api_key=API_KEY)
+
+print("=" * 50)
+print("       FITBUDDY - AI FITNESS PLAN GENERATOR")
+print("=" * 50)
+
+# Get user details
+name = input("Enter your name: ")
+age = input("Enter your age: ")
+gender = input("Enter your gender: ")
+height = input("Enter your height (cm): ")
+weight = input("Enter your weight (kg): ")
+goal = input("Enter your fitness goal: ")
+activity = input("Enter your current activity level: ")
+days = input("How many days per week can you exercise? ")
+
+# Create prompt
+prompt = f"""
+You are FitBuddy, an AI fitness planning assistant.
+
+Create a simple and safe fitness plan based on these details:
+
+Name: {name}
+Age: {age}
+Gender: {gender}
+Height: {height} cm
+Weight: {weight} kg
+Fitness Goal: {goal}
+Current Activity Level: {activity}
+Exercise Days Per Week: {days}
+
+Provide:
+1. Weekly workout schedule
+2. Exercises for each day
+3. Sets and repetitions where appropriate
+4. Rest/recovery guidance
+5. General healthy eating guidance
+6. Beginner-friendly safety tips
+
+Do not diagnose medical conditions or prescribe medical treatment.
+Keep the plan age-appropriate and encourage professional guidance when needed.
+"""
+
+# Generate fitness plan
+response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt
+)
+
+# Display result
+print("\n" + "=" * 50)
+print("           YOUR FITBUDDY PLAN")
+print("=" * 50)
+
+print(response.text)
+
+print("\n" + "=" * 50)
+print("Thank you for using FitBuddy!")
+print("=" * 50)
